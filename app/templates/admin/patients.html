@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Manage Patients - HMS{% endblock %}
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="page-title">
+                <i class="bi bi-people"></i>
+                Manage Patients
+            </h1>
+            <p class="page-subtitle mb-0">View and manage registered patient records.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Search -->
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-body p-4">
+        <form method="GET" class="row g-3">
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0 ps-0" name="search" placeholder="Search by name, phone, or ID..." value="{{ search_query }}">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Patients Table -->
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        {% if patients %}
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Patient Name</th>
+                            <th>Contact Info</th>
+                            <th>Gender</th>
+                            <th>Blood Group</th>
+                            <th>Registered</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for patient in patients %}
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar bg-success-subtle text-success">
+                                        {{ patient.full_name[0] }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark">{{ patient.full_name }}</div>
+                                        <small class="text-muted">ID: #{{ patient.id }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {% if patient.phone %}
+                                    <div class="d-flex flex-column">
+                                        <span><i class="bi bi-telephone text-muted me-1"></i> {{ patient.phone }}</span>
+                                        {% if patient.email %}
+                                        <small class="text-muted"><i class="bi bi-envelope text-muted me-1"></i> {{ patient.email }}</small>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <span class="text-muted small">-</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ patient.gender or '-' }}</td>
+                            <td>
+                                {% if patient.blood_group %}
+                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle">{{ patient.blood_group }}</span>
+                                {% else %}
+                                <span class="text-muted small">-</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <!-- Assuming date_of_birth is used for simplicity or added_on if available -->
+                                <span class="text-muted small">
+                                    {{ patient.date_of_birth if patient.date_of_birth else '-' }}
+                                </span>
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="btn-group">
+                                    <a href="{{ url_for('admin.edit_patient', patient_id=patient.id) }}" class="btn btn-sm btn-outline-warning" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="{{ url_for('admin.delete_patient', patient_id=patient.id) }}" 
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('Are you sure you want to delete patient {{ patient.full_name }}?')"
+                                       title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="bi bi-people text-muted opacity-25" style="font-size: 4rem;"></i>
+            <h4 class="mt-3">No Patients Found</h4>
+            <p class="text-muted">Try adjusting your search criteria.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

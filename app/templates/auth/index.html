@@ -1,0 +1,194 @@
+{% extends "auth/_auth_base.html" %}
+
+{% block title %}Welcome - Hospital Management System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="row align-items-center" style="min-height: 80vh;">
+    <div class="col-lg-6 mb-5 mb-lg-0">
+        <div class="mb-4">
+            <span class="badge badge-primary px-3 py-2">
+                <i class="bi bi-hospital-fill"></i>
+                Next Generation Healthcare
+            </span>
+        </div>
+        <h1 class="display-3 fw-bold mb-4" style="line-height: 1.2;">
+            Modern Hospital
+            <span style="color: var(--color-primary);">Management</span>
+            System
+        </h1>
+        <p class="lead text-muted mb-5">
+            Streamline healthcare operations with our comprehensive management platform.
+            Efficient appointment scheduling, patient records, and seamless communication between patients and healthcare professionals.
+        </p>
+
+        <div class="d-flex flex-wrap gap-3 mb-5">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                <i class="bi bi-person-plus"></i>
+                Register as Patient
+            </a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary btn-lg">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Sign In
+            </a>
+        </div>
+
+        <div class="d-flex gap-5 text-center">
+            <div>
+                <div class="h3 fw-bold text-primary mb-1">1000+</div>
+                <div class="text-muted small">Patients Served</div>
+            </div>
+            <div>
+                <div class="h3 fw-bold text-primary mb-1">50+</div>
+                <div class="text-muted small">Expert Doctors</div>
+            </div>
+            <div>
+                <div class="h3 fw-bold text-primary mb-1">24/7</div>
+                <div class="text-muted small">Support Available</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="position-relative">
+            <!-- Decorative element -->
+            <div class="position-absolute top-0 end-0 w-75 h-75 bg-primary opacity-10 rounded-circle" style="filter: blur(100px); z-index: -1;"></div>
+
+            <!-- Feature Cards -->
+            <div class="row g-4">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="rounded-circle bg-primary bg-opacity-10 p-3">
+                                        <i class="bi bi-people-fill fs-3 text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-4">
+                                    <h5 class="mb-2">For Patients</h5>
+                                    <p class="text-muted mb-3">
+                                        Book appointments with ease, access your medical history, track prescriptions, and communicate with your healthcare team.
+                                    </p>
+                                    <a href="{{ url_for('auth.register') }}" class="btn btn-sm btn-outline-primary">
+                                        Get Started <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="rounded-circle" style="background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); padding: 12px;">
+                                        <i class="bi bi-clipboard2-pulse-fill fs-3 text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-4">
+                                    <h5 class="mb-2">For Doctors</h5>
+                                    <p class="text-muted mb-3">
+                                        Manage your schedule, view patient appointments, maintain treatment records, and provide quality care efficiently.
+                                    </p>
+                                    <a href="{{ url_for('auth.login') }}" class="btn btn-sm btn-outline-success">
+                                        Doctor Portal <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="rounded-circle" style="background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%); padding: 12px;">
+                                        <i class="bi bi-gear-fill fs-3 text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-4">
+                                    <h5 class="mb-2">For Administrators</h5>
+                                    <p class="text-muted mb-3">
+                                        Complete hospital oversight with comprehensive dashboards, staff management, and operational analytics.
+                                    </p>
+                                    <a href="{{ url_for('auth.login') }}" class="btn btn-sm" style="color: #9c27b0; border-color: #9c27b0;">
+                                        Admin Access <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row mt-5 py-5 border-top">
+    <div class="col-12 text-center mb-5">
+        <h2 class="fw-bold mb-3">Why Choose HealthCare Plus?</h2>
+        <p class="text-muted">Our platform provides comprehensive healthcare management solutions</p>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="text-center p-4">
+            <div class="mb-3">
+                <i class="bi bi-calendar-check" style="font-size: 3rem; color: var(--color-primary);"></i>
+            </div>
+            <h5 class="mb-3">Easy Appointment Scheduling</h5>
+            <p class="text-muted">
+                Book, reschedule, or cancel appointments with just a few clicks. Real-time availability updates.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="text-center p-4">
+            <div class="mb-3">
+                <i class="bi bi-shield-check" style="font-size: 3rem; color: var(--color-success);"></i>
+            </div>
+            <h5 class="mb-3">Secure & Private</h5>
+            <p class="text-muted">
+                Your medical data is encrypted and stored securely. We prioritize your privacy and confidentiality.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="text-center p-4">
+            <div class="mb-3">
+                <i class="bi bi-clock-history" style="font-size: 3rem; color: var(--color-info);"></i>
+            </div>
+            <h5 class="mb-3">Complete Medical History</h5>
+            <p class="text-muted">
+                Access your complete treatment history, prescriptions, and medical records anytime, anywhere.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hover-lift {
+    transition: all var(--transition-base);
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg) !important;
+}
+
+@media (max-width: 992px) {
+    .display-3 {
+        font-size: 2.5rem;
+    }
+}
+</style>
+{% endblock %}

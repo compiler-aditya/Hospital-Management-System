@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Find Doctors - HMS{% endblock %}
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="page-title">
+                <i class="bi bi-search"></i>
+                Find Doctors
+            </h1>
+            <p class="page-subtitle mb-0">Search for specialists and book your appointment.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Search & Filter -->
+<div class="card mb-5 shadow-sm">
+    <div class="card-body p-4">
+        <form method="GET" class="row g-3 align-items-end">
+            <div class="col-md-6">
+                <label class="form-label small text-muted text-uppercase fw-bold">Search</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0 ps-0" name="search" placeholder="Doctor name, specialization..." value="{{ search_query }}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label small text-muted text-uppercase fw-bold">Department</label>
+                <select class="form-select" name="department">
+                    <option value="">All Departments</option>
+                    {% for dept in departments %}
+                    <option value="{{ dept.id }}" {% if selected_department == dept.id|string %}selected{% endif %}>{{ dept.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100 h-100" style="min-height: 42px;">
+                    Apply Filters
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Doctors Grid -->
+{% if doctors %}
+<div class="row g-4">
+    {% for doctor in doctors %}
+    <div class="col-lg-6">
+        <div class="card h-100 hover-shadow transition-base border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-start gap-4">
+                    <!-- Avatar -->
+                    <div class="flex-shrink-0">
+                        <div class="avatar avatar-lg shadow-sm" style="background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);">
+                            {{ doctor.full_name[0] }}
+                        </div>
+                    </div>
+                    
+                    <!-- Info -->
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <h5 class="card-title mb-1 text-primary">Dr. {{ doctor.full_name }}</h5>
+                                <div class="mb-2">
+                                    <span class="badge bg-primary-subtle text-primary rounded-pill">{{ doctor.specialization }}</span>
+                                </div>
+                            </div>
+                            {% if doctor.experience_years %}
+                            <div class="text-end">
+                                <div class="fw-bold text-dark">{{ doctor.experience_years }}+</div>
+                                <div class="small text-muted">Years Exp.</div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3 small text-muted">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi bi-hospital"></i>
+                                {{ doctor.department.name }} Department
+                            </div>
+                            {% if doctor.qualification %}
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi bi-mortarboard"></i>
+                                {{ doctor.qualification }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Availability Snippet -->
+                        <div class="bg-light rounded p-3 mb-3">
+                            <h6 class="text-uppercase text-muted small fw-bold mb-2">
+                                <i class="bi bi-calendar-week me-1"></i> Next Availability
+                            </h6>
+                            {% if availability_dict.get(doctor.id) %}
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for av in availability_dict[doctor.id][:3] %}
+                                    <span class="badge bg-white text-dark border fw-normal">
+                                        {{ av.date.strftime('%a, %b %d') }} • {{ av.start_time.strftime('%H:%M') }}
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <span class="text-muted small fst-italic">No slots available this week</span>
+                            {% endif %}
+                        </div>
+
+                        <a href="{{ url_for('patient.book_appointment', doctor_id=doctor.id) }}" class="btn btn-primary w-100">
+                            Book Appointment <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <div class="mb-3">
+        <i class="bi bi-search" style="font-size: 3rem; color: var(--gray-300);"></i>
+    </div>
+    <h4 class="text-muted">No doctors found</h4>
+    <p class="text-muted">Try adjusting your search or filters.</p>
+    <a href="{{ url_for('patient.doctors') }}" class="btn btn-outline-primary mt-2">Clear Filters</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hover-shadow:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md) !important;
+}
+.transition-base {
+    transition: all var(--transition-base);
+}
+</style>
+{% endblock %}

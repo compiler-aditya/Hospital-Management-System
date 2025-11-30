@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - HMS{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="page-title">
+                <i class="bi bi-hospital"></i>
+                {{ title }}
+            </h1>
+        </div>
+        <div>
+            <a href="{{ url_for('admin.departments') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label required">Department Name</label>
+                        <input type="text" class="form-control" id="name" name="name" 
+                               value="{{ department.name if department else '' }}" required placeholder="e.g. Cardiology">
+                    </div>
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" 
+                                  placeholder="Brief description of the department...">{{ department.description if department else '' }}</textarea>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{{ url_for('admin.departments') }}" class="btn btn-light border">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-4">Save Department</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

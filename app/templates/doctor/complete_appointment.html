@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+{% block title %}{% if appointment.status == 'Completed' %}View{% else %}Complete{% endif %} Appointment - HMS{% endblock %}
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="page-title">
+                <i class="bi bi-{% if appointment.status == 'Completed' %}file-check{% else %}clipboard-check{% endif %}"></i>
+                {% if appointment.status == 'Completed' %}Appointment Details{% else %}Complete Appointment{% endif %}
+            </h1>
+            <p class="page-subtitle mb-0">
+                {% if appointment.status == 'Completed' %}Review treatment details{% else %}Enter diagnosis and treatment plan{% endif %}
+            </p>
+        </div>
+        <div>
+            <a href="{{ url_for('doctor.dashboard') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Patient Sidebar -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="avatar avatar-lg bg-primary-subtle text-primary">
+                        {{ appointment.patient.full_name[0] }}
+                    </div>
+                    <div>
+                        <h5 class="mb-1">{{ appointment.patient.full_name }}</h5>
+                        <span class="badge bg-light text-dark border">
+                            {{ appointment.patient.gender or 'N/A' }}
+                            {% if appointment.patient.date_of_birth %}
+                            • {{ ((date.today() - appointment.patient.date_of_birth).days // 365) }} yrs
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex justify-content-between border-bottom pb-2">
+                        <span class="text-muted">Blood Group</span>
+                        <span class="fw-medium">{{ appointment.patient.blood_group or 'N/A' }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2">
+                        <span class="text-muted">Phone</span>
+                        <span class="fw-medium">{{ appointment.patient.phone or 'N/A' }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between pb-2">
+                        <span class="text-muted">Emergency</span>
+                        <span class="fw-medium">{{ appointment.patient.emergency_contact or 'N/A' }}</span>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h6 class="text-uppercase text-muted small fw-bold mb-3 d-flex justify-content-between align-items-center">
+                        Medical History
+                        <span class="badge bg-secondary bg-opacity-10 text-secondary">{{ history|length }}</span>
+                    </h6>
+                    
+                    {% if history %}
+                    <div class="d-flex flex-column gap-2" style="max-height: 400px; overflow-y: auto; padding-right: 4px;">
+                        {% for apt in history %}
+                        <div class="card border-0 bg-light hover-bg-gray-200 transition-base" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#historyModal{{ apt.id }}">
+                            <div class="card-body p-3">
+                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                    <span class="fw-bold text-dark small">{{ apt.appointment_date.strftime('%b %d, %Y') }}</span>
+                                    <i class="bi bi-chevron-right text-muted" style="font-size: 0.75rem;"></i>
+                                </div>
+                                {% if apt.treatment %}
+                                    <div class="text-truncate small text-muted" title="{{ apt.treatment.diagnosis }}">
+                                        {{ apt.treatment.diagnosis }}
+                                    </div>
+                                {% else %}
+                                    <span class="small text-muted fst-italic">No diagnosis</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4 bg-light rounded border border-dashed">
+                        <i class="bi bi-clipboard-x text-muted mb-2" style="font-size: 1.5rem;"></i>
+                        <p class="text-muted small mb-0">No previous visits found.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-lg-8">
+        <!-- Appointment Details -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-info-circle text-muted"></i> Visit Information
+                </h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-4">
+                    <div class="col-sm-6">
+                        <label class="small text-muted text-uppercase fw-bold mb-1">Date & Time</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-calendar3 text-primary"></i>
+                            <span class="fw-medium">{{ appointment.appointment_date.strftime('%A, %b %d, %Y') }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            <i class="bi bi-clock text-primary"></i>
+                            <span class="fw-medium">{{ appointment.appointment_time.strftime('%I:%M %p') }}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="small text-muted text-uppercase fw-bold mb-1">Status</label>
+                        <div>
+                            <span class="badge bg-{{ 'success' if appointment.status == 'Completed' else ('danger' if appointment.status == 'Cancelled' else 'warning') }}">
+                                {{ appointment.status }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="small text-muted text-uppercase fw-bold mb-1">Reason for Visit</label>
+                        <p class="mb-0 bg-light p-2 rounded">{{ appointment.reason or 'No specific reason provided' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment Form/Details -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-clipboard2-pulse text-primary"></i> Treatment Details
+                </h5>
+            </div>
+            <div class="card-body p-4">
+                {% if appointment.status == 'Completed' and appointment.treatment %}
+                    <!-- View Mode -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-muted text-uppercase small">Diagnosis</label>
+                        <div class="p-3 bg-light rounded border">{{ appointment.treatment.diagnosis }}</div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-muted text-uppercase small">Prescription</label>
+                        <div class="p-3 bg-light rounded border font-monospace">{{ appointment.treatment.prescription or 'No prescription provided' }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted text-uppercase small">Doctor's Notes</label>
+                        <div class="p-3 bg-light rounded border fst-italic">{{ appointment.treatment.notes or 'No notes' }}</div>
+                    </div>
+                    <div class="text-end text-muted small">
+                        Treatment Date: {{ appointment.treatment.created_at.strftime('%B %d, %Y') }}
+                    </div>
+                    
+                    <div class="mt-4 pt-3 border-top d-flex gap-3">
+                        <a href="{{ url_for('doctor.dashboard') }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Dashboard
+                        </a>
+                        <a href="{{ url_for('auth.print_prescription', appointment_id=appointment.id) }}" target="_blank" class="btn btn-primary">
+                            <i class="bi bi-printer"></i> Print Prescription
+                        </a>
+                    </div>
+
+                {% elif appointment.status == 'Booked' %}
+                    <!-- Edit Mode -->
+                    <form method="POST">
+                        <div class="mb-4">
+                            <label for="diagnosis" class="form-label required fw-bold">
+                                Diagnosis
+                            </label>
+                            <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" required
+                                      placeholder="Enter clinical diagnosis...">{{ appointment.treatment.diagnosis if appointment.treatment else '' }}</textarea>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="prescription" class="form-label fw-bold">
+                                Prescription
+                            </label>
+                            <textarea class="form-control font-monospace" id="prescription" name="prescription" rows="5"
+                                      placeholder="Rx: Medication Name - Dosage - Frequency">{{ appointment.treatment.prescription if appointment.treatment else '' }}</textarea>
+                            <small class="form-text text-muted">Use clear formatting for medication instructions.</small>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="notes" class="form-label fw-bold">
+                                Private Notes
+                            </label>
+                            <textarea class="form-control" id="notes" name="notes" rows="2"
+                                      placeholder="Internal notes not visible on simple summaries...">{{ appointment.treatment.notes if appointment.treatment else '' }}</textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-3 pt-3 border-top">
+                            <a href="{{ url_for('doctor.dashboard') }}" class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success px-4">
+                                <i class="bi bi-check-lg"></i> Complete Appointment
+                            </button>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="alert alert-warning mb-0">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        This appointment has been {{ appointment.status.lower() }}. Treatment details cannot be added.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block modals %}
+{% for apt in history %}
+<div class="modal fade" id="historyModal{{ apt.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title d-flex align-items-center gap-2">
+                    <i class="bi bi-clock-history text-primary"></i> 
+                    Visit History - {{ apt.appointment_date.strftime('%B %d, %Y') }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                {% if apt.reason %}
+                <div class="mb-4">
+                    <label class="small text-muted text-uppercase fw-bold mb-1">Reason for Visit</label>
+                    <p class="mb-0 bg-light p-2 rounded">{{ apt.reason }}</p>
+                </div>
+                {% endif %}
+
+                {% if apt.treatment %}
+                    <div class="mb-4">
+                        <label class="small text-muted text-uppercase fw-bold mb-1">Diagnosis</label>
+                        <div class="p-3 bg-white border rounded">{{ apt.treatment.diagnosis }}</div>
+                    </div>
+                    
+                    {% if apt.treatment.prescription %}
+                    <div class="mb-4">
+                        <label class="small text-muted text-uppercase fw-bold mb-1">Prescription</label>
+                        <div class="p-3 bg-white border rounded font-monospace small" style="white-space: pre-wrap;">{{ apt.treatment.prescription }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% if apt.treatment.notes %}
+                    <div class="mb-3">
+                        <label class="small text-muted text-uppercase fw-bold mb-1">Doctor's Notes</label>
+                        <div class="p-3 bg-white border rounded fst-italic text-muted">{{ apt.treatment.notes }}</div>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-warning mb-0">
+                        No treatment record found for this visit.
+                    </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer bg-light border-top-0">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

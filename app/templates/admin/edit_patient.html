@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Edit Patient - HMS{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-pencil-square"></i> Edit Patient</h2>
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="full_name" class="form-label">Full Name *</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" value="{{ patient.full_name }}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ patient.phone or '' }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="blood_group" class="form-label">Blood Group</label>
+                    <input type="text" class="form-control" id="blood_group" name="blood_group" value="{{ patient.blood_group or '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="emergency_contact" class="form-label">Emergency Contact</label>
+                    <input type="tel" class="form-control" id="emergency_contact" name="emergency_contact" value="{{ patient.emergency_contact or '' }}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <textarea class="form-control" id="address" name="address" rows="2">{{ patient.address or '' }}</textarea>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Update Patient</button>
+                <a href="{{ url_for('admin.patients') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

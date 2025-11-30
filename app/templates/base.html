@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HealthCare Plus - Enterprise HMS{% endblock %}</title>
+
+    <!-- Google Fonts - Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- App Shell Layout (Dashboard) - Always rendered if authenticated -->
+    <div class="app-shell">
+        
+        <!-- 1. Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a class="text-decoration-none d-flex align-items-center gap-2" href="{{ url_for('auth.index') }}">
+                    <div class="d-flex align-items-center justify-content-center bg-primary-subtle rounded-3 p-1" style="width: 32px; height: 32px;">
+                        <i class="bi bi-hospital-fill text-primary" style="font-size: 1.2rem;"></i>
+                    </div>
+                    <span class="fw-bold text-dark tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">HealthCare<span class="text-primary">Plus</span></span>
+                </a>
+            </div>
+
+            <div class="sidebar-body">
+                {% if current_user.role == 'admin' %}
+                    <div class="nav-item-group">
+                        <div class="nav-group-label">Overview</div>
+                        <a href="{{ url_for('admin.dashboard') }}" class="side-nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2"></i> Dashboard
+                        </a>
+                    </div>
+                    <div class="nav-item-group">
+                        <div class="nav-group-label">Management</div>
+                        <a href="{{ url_for('admin.doctors') }}" class="side-nav-link {% if 'doctors' in request.endpoint %}active{% endif %}">
+                            <i class="bi bi-person-badge"></i> Doctors
+                        </a>
+                        <a href="{{ url_for('admin.patients') }}" class="side-nav-link {% if 'patients' in request.endpoint %}active{% endif %}">
+                            <i class="bi bi-people"></i> Patients
+                        </a>
+                        <a href="{{ url_for('admin.departments') }}" class="side-nav-link {% if 'departments' in request.endpoint %}active{% endif %}">
+                            <i class="bi bi-hospital"></i> Departments
+                        </a>
+                    </div>
+                    <div class="nav-item-group">
+                        <div class="nav-group-label">Operations</div>
+                        <a href="{{ url_for('admin.appointments') }}" class="side-nav-link {% if 'appointments' in request.endpoint %}active{% endif %}">
+                            <i class="bi bi-calendar-check"></i> Appointments
+                        </a>
+                    </div>
+
+                {% elif current_user.role == 'doctor' %}
+                    <div class="nav-item-group">
+                        <div class="nav-group-label">Workspace</div>
+                        <a href="{{ url_for('doctor.dashboard') }}" class="side-nav-link {% if request.endpoint == 'doctor.dashboard' %}active{% endif %}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                        <a href="{{ url_for('doctor.availability') }}" class="side-nav-link {% if request.endpoint == 'doctor.availability' %}active{% endif %}">
+                            <i class="bi bi-calendar-range"></i> My Schedule
+                        </a>
+                    </div>
+
+                {% elif current_user.role == 'patient' %}
+                    <div class="nav-item-group">
+                        <div class="nav-group-label">Personal Care</div>
+                        <a href="{{ url_for('patient.dashboard') }}" class="side-nav-link {% if request.endpoint == 'patient.dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2"></i> Overview
+                        </a>
+                        <a href="{{ url_for('patient.doctors') }}" class="side-nav-link {% if 'doctors' in request.endpoint or 'book' in request.endpoint %}active{% endif %}">
+                            <i class="bi bi-search"></i> Find Doctors
+                        </a>
+                        <a href="{{ url_for('patient.profile') }}" class="side-nav-link {% if request.endpoint == 'patient.profile' %}active{% endif %}">
+                            <i class="bi bi-person-circle"></i> My Profile
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="avatar bg-primary-subtle text-primary">
+                        {{ current_user.username[0].upper() }}
+                    </div>
+                    <div class="overflow-hidden">
+                        <div class="fw-bold text-dark text-truncate">{{ current_user.username }}</div>
+                        <div class="small text-muted text-truncate text-capitalize">{{ current_user.role }}</div>
+                    </div>
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-icon btn-light ms-auto" title="Logout">
+                        <i class="bi bi-box-arrow-right text-danger"></i>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 2. Main Content Wrapper -->
+        <div class="main-wrapper">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div>
+                    <!-- Breadcrumbs or Page Title Placeholder -->
+                    <h5 class="mb-0 fw-bold text-dark" id="page-header-title">
+                        {% if request.endpoint and '.' in request.endpoint %}
+                            {{ request.endpoint.split('.')[1]|capitalize|replace('_', ' ') }}
+                        {% else %}
+                            HealthCare Plus
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-muted small">{{ current_date }}</span>
+                </div>
+            </header>
+
+            <!-- Content Area (Scrollable) -->
+            <div class="content-scrollable">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category if category in ['success', 'warning', 'danger', 'info'] else 'info' }} alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-info-circle-fill fs-5 me-3"></i>
+                                    <div>{{ message }}</div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    {% block modals %}{% endblock %}
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

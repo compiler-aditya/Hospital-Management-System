@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - HMS{% endblock %}
+
+{% block content %}
+<div class="row g-4 h-100">
+    <!-- Column 1: Statistics (Vertical) -->
+    <div class="col-lg-3 d-flex flex-column gap-4">
+        <!-- Stat: Doctors -->
+        <div class="stat-card stat-card-primary">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="stat-card-value">{{ total_doctors }}</div>
+                    <div class="stat-card-label">Total Doctors</div>
+                </div>
+                <div class="stat-card-icon">
+                    <i class="bi bi-person-badge-fill"></i>
+                </div>
+            </div>
+            <a href="{{ url_for('admin.doctors') }}" class="stretched-link"></a>
+        </div>
+
+        <!-- Stat: Patients -->
+        <div class="stat-card stat-card-success">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="stat-card-value">{{ total_patients }}</div>
+                    <div class="stat-card-label">Total Patients</div>
+                </div>
+                <div class="stat-card-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+            </div>
+            <a href="{{ url_for('admin.patients') }}" class="stretched-link"></a>
+        </div>
+
+        <!-- Stat: Appointments -->
+        <div class="stat-card stat-card-info">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="stat-card-value">{{ total_appointments }}</div>
+                    <div class="stat-card-label">All Appointments</div>
+                </div>
+                <div class="stat-card-icon">
+                    <i class="bi bi-calendar-check-fill"></i>
+                </div>
+            </div>
+            <a href="{{ url_for('admin.appointments') }}" class="stretched-link"></a>
+        </div>
+
+        <!-- Quick Actions Card -->
+        <div class="card border-0 shadow-sm flex-fill">
+            <div class="card-header">
+                <h6 class="card-title mb-0 text-uppercase fs-6 text-muted">Quick Actions</h6>
+            </div>
+            <div class="card-body d-flex flex-column gap-2">
+                <a href="{{ url_for('admin.add_doctor') }}" class="btn btn-primary w-100 justify-content-start">
+                    <i class="bi bi-plus-circle me-2"></i> Add Doctor
+                </a>
+                <a href="{{ url_for('admin.add_department') }}" class="btn btn-outline-secondary w-100 justify-content-start">
+                    <i class="bi bi-hospital me-2"></i> Add Department
+                </a>
+                <a href="{{ url_for('admin.appointments') }}" class="btn btn-outline-secondary w-100 justify-content-start">
+                    <i class="bi bi-search me-2"></i> Search Records
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Column 2: Recent Activity (Full Height Table) -->
+    <div class="col-lg-9">
+        <div class="card card-full-height border-0 shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center bg-white sticky-top">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-clock-history text-primary"></i> Recent Appointments
+                </h5>
+                <a href="{{ url_for('admin.appointments') }}" class="btn btn-sm btn-light">View All</a>
+            </div>
+            <div class="card-body p-0">
+                {% if recent_appointments %}
+                <div class="table-responsive h-100">
+                    <table class="table table-hover table-sm mb-0 align-middle">
+                        <thead class="bg-light sticky-top">
+                            <tr>
+                                <th class="ps-4">ID</th>
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for apt in recent_appointments %}
+                            <tr>
+                                <td class="ps-4 text-muted small">#{{ apt.id }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="avatar avatar-sm bg-success-subtle text-success" style="width: 28px; height: 28px; font-size: 0.75rem;">
+                                            {{ apt.patient.full_name[0] }}
+                                        </div>
+                                        <span class="fw-medium small">{{ apt.patient.full_name }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="small">Dr. {{ apt.doctor.full_name }}</span>
+                                </td>
+                                <td class="small text-muted">
+                                    {{ apt.appointment_date.strftime('%b %d') }} • {{ apt.appointment_time.strftime('%H:%M') }}
+                                </td>
+                                <td>
+                                    {% if apt.status == 'Completed' %}
+                                        <span class="badge badge-success">Completed</span>
+                                    {% elif apt.status == 'Booked' %}
+                                        <span class="badge badge-warning">Booked</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Cancelled</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state py-5">
+                    <p class="text-muted">No recent activity.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Dashboard specific tweaks */
+    .stat-card { padding: 1.25rem; }
+    .stat-card-value { font-size: 2rem; }
+    .stat-card-icon { font-size: 1.25rem; width: 40px; height: 40px; }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Set header title dynamically
+    document.getElementById('page-header-title').textContent = 'Dashboard Overview';
+</script>
+{% endblock %}

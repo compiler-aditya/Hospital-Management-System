@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% block title %}Patient Dashboard - HMS{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column h-100 gap-4">
+    <!-- Top Row: Welcome & Quick Actions -->
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm bg-primary text-white h-100 overflow-hidden position-relative">
+                <div class="card-body position-relative z-1 p-4 d-flex flex-column justify-content-center">
+                    <h3 class="fw-bold mb-2">Welcome back, {{ patient.full_name }}!</h3>
+                    <p class="mb-4 text-white-50" style="max-width: 500px;">Track your health journey, manage appointments, and access your medical history all in one place.</p>
+                    <div class="d-flex gap-3">
+                        <a href="{{ url_for('patient.doctors') }}" class="btn btn-light text-primary fw-bold px-4">
+                            <i class="bi bi-calendar-plus me-2"></i> Book Appointment
+                        </a>
+                        <a href="{{ url_for('patient.profile') }}" class="btn btn-outline-light px-4">
+                            View Profile
+                        </a>
+                    </div>
+                </div>
+                <!-- Decorative background circle -->
+                <div class="position-absolute rounded-circle bg-white opacity-10" style="width: 300px; height: 300px; right: -50px; bottom: -100px;"></div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <h6 class="text-uppercase text-muted small fw-bold mb-3">Quick Status</h6>
+                    <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-warning-subtle p-2 text-warning">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <div>
+                                <div class="h5 mb-0 fw-bold">{{ upcoming_appointments|length }}</div>
+                                <div class="small text-muted">Upcoming</div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-success-subtle p-2 text-success">
+                                <i class="bi bi-check-all"></i>
+                            </div>
+                            <div>
+                                <div class="h5 mb-0 fw-bold">{{ past_appointments|length }}</div>
+                                <div class="small text-muted">Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('patient.doctors') }}" class="d-flex justify-content-between align-items-center text-decoration-none text-dark p-2 hover-bg-gray-50 rounded transition-base">
+                        <span class="fw-medium"><i class="bi bi-search text-primary me-2"></i> Find a Specialist</span>
+                        <i class="bi bi-chevron-right small text-muted"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Middle Row: Content -->
+    <div class="row g-4 flex-fill min-h-0">
+        <!-- Left: Upcoming Appointments -->
+        <div class="col-lg-7 d-flex flex-column h-100">
+            <div class="card card-full-height border-0 shadow-sm">
+                <div class="card-header bg-white sticky-top d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-calendar-event text-primary"></i> Upcoming Visits
+                    </h5>
+                </div>
+                <div class="card-body p-0 scrollable-list">
+                    {% if upcoming_appointments %}
+                    <div class="list-group list-group-flush">
+                        {% for apt in upcoming_appointments %}
+                        <div class="list-group-item border-0 border-bottom p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="text-center border rounded p-2 bg-light" style="min-width: 60px;">
+                                        <div class="small text-danger fw-bold">{{ apt.appointment_date.strftime('%b') }}</div>
+                                        <div class="h5 mb-0 fw-bold">{{ apt.appointment_date.strftime('%d') }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark mb-1">Dr. {{ apt.doctor.full_name }}</div>
+                                        <div class="small text-muted mb-1">{{ apt.doctor.specialization }}</div>
+                                        <div class="badge bg-light text-dark border">
+                                            <i class="bi bi-clock me-1"></i> {{ apt.appointment_time.strftime('%I:%M %p') }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a href="{{ url_for('patient.cancel_appointment', appointment_id=apt.id) }}" 
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('Are you sure?')">
+                                        Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state py-5 h-100 d-flex flex-column justify-content-center">
+                        <i class="bi bi-calendar-check text-muted opacity-25" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-3">No upcoming appointments.</p>
+                        <a href="{{ url_for('patient.doctors') }}" class="btn btn-sm btn-primary mt-2 align-self-center">Book Now</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Medical History (Compact) -->
+        <div class="col-lg-5 d-flex flex-column h-100">
+            <div class="card card-full-height border-0 shadow-sm">
+                <div class="card-header bg-white sticky-top">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-clock-history text-secondary"></i> Recent History
+                    </h5>
+                </div>
+                <div class="card-body p-0 scrollable-list">
+                    {% if past_appointments %}
+                    <div class="list-group list-group-flush">
+                        {% for apt in past_appointments %}
+                        <div class="list-group-item border-0 border-bottom p-3 hover-bg-gray-50 transition-base" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#historyModal{{ apt.id }}">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="small text-muted">{{ apt.appointment_date.strftime('%b %d, %Y') }}</span>
+                                <span class="badge bg-success-subtle text-success rounded-pill" style="font-size: 0.65rem;">Completed</span>
+                            </div>
+                            <div class="fw-bold text-dark mb-1">Dr. {{ apt.doctor.full_name }}</div>
+                            <div class="text-truncate small text-muted" style="max-width: 250px;">
+                                {{ apt.treatment.diagnosis if apt.treatment else 'No diagnosis recorded' }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state py-5 h-100 d-flex flex-column justify-content-center">
+                        <p class="text-muted">No medical history yet.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block modals %}
+<!-- Modals for Past Appointments -->
+{% for apt in past_appointments %}
+<div class="modal fade" id="historyModal{{ apt.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title d-flex align-items-center gap-2">
+                    <i class="bi bi-file-medical text-primary"></i> 
+                    Appointment Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded h-100">
+                            <h6 class="text-muted text-uppercase small mb-3">Doctor Information</h6>
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="avatar bg-primary text-white">
+                                    {{ apt.doctor.full_name[0] }}
+                                </div>
+                                <div>
+                                    <div class="fw-bold">Dr. {{ apt.doctor.full_name }}</div>
+                                    <div class="text-muted small">{{ apt.doctor.specialization }}</div>
+                                    <div class="text-muted small">{{ apt.doctor.department.name if apt.doctor.department else 'General' }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded h-100">
+                            <h6 class="text-muted text-uppercase small mb-3">Appointment Info</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Date:</span>
+                                    <span class="fw-medium">{{ apt.appointment_date.strftime('%B %d, %Y') }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Time:</span>
+                                    <span class="fw-medium">{{ apt.appointment_time.strftime('%I:%M %p') }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Status:</span>
+                                    <span class="badge badge-success">{{ apt.status }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if apt.reason %}
+                <div class="mb-4">
+                    <label class="form-label text-muted small text-uppercase fw-bold">Reason for Visit</label>
+                    <div class="p-3 border rounded bg-white">
+                        {{ apt.reason }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if apt.treatment %}
+                    <div class="card border-success border-opacity-25 mb-3">
+                        <div class="card-header bg-success bg-opacity-10 border-bottom border-success border-opacity-25">
+                            <h6 class="mb-0 text-success-emphasis"><i class="bi bi-activity me-2"></i>Clinical Diagnosis & Treatment</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="fw-bold text-dark mb-1">Diagnosis</label>
+                                <p class="mb-0 text-secondary">{{ apt.treatment.diagnosis }}</p>
+                            </div>
+                            
+                            {% if apt.treatment.prescription %}
+                            <div class="mb-3">
+                                <label class="fw-bold text-dark mb-1">Prescription</label>
+                                <div class="p-2 bg-light rounded font-monospace small" style="white-space: pre-wrap;">{{ apt.treatment.prescription }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if apt.treatment.notes %}
+                            <div>
+                                <label class="fw-bold text-dark mb-1">Doctor's Notes</label>
+                                <p class="mb-0 text-secondary small fst-italic">{{ apt.treatment.notes }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-light border text-center">
+                        <i class="bi bi-clipboard-x text-muted fs-4 d-block mb-2"></i>
+                        No treatment details recorded yet.
+                    </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer bg-light border-top-0">
+                {% if apt.treatment %}
+                <a href="{{ url_for('auth.print_prescription', appointment_id=apt.id) }}" target="_blank" class="btn btn-primary">
+                    <i class="bi bi-printer"></i> Print
+                </a>
+                {% endif %}
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('page-header-title').textContent = 'Patient Overview';
+</script>
+{% endblock %}

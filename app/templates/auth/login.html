@@ -1,0 +1,125 @@
+{% extends "auth/_auth_base.html" %}
+
+{% block title %}Sign In - HealthCare Plus{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-0 overflow-hidden">
+    <!-- Simplified structure as _auth_base.html handles the shell -->
+    <div class="auth-fullpage-bg">
+        <!-- Animated Background Orbs -->
+        <div class="auth-orbs">
+            <div class="hero-orb orb-1"></div>
+            <div class="hero-orb orb-2"></div>
+            <div class="hero-orb orb-3"></div>
+            <div class="hero-orb orb-4"></div>
+        </div>
+
+        <!-- Centered Login Card -->
+        <div class="auth-card-container">
+            <div class="auth-login-card animate-fade-in">
+                <!-- Logo & Brand -->
+                <div class="text-center mb-4">
+                    <div class="auth-logo-circle mx-auto mb-3">
+                        <i class="bi bi-hospital-fill"></i>
+                    </div>
+                    <h1 class="auth-brand-title mb-1">HealthCare<span class="text-primary">Plus</span></h1>
+                    <p class="text-muted small mb-0">Modern Hospital Management System</p>
+                </div>
+
+                <!-- Welcome Text -->
+                <div class="text-center mb-4">
+                    <h2 class="h4 fw-bold mb-1">Welcome back</h2>
+                    <p class="text-muted small">Please enter your details to sign in</p>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} border-0 shadow-sm mb-4">
+                            <i class="bi bi-{% if category == 'success' %}check-circle-fill{% elif category == 'danger' %}x-circle-fill{% else %}info-circle-fill{% endif %} me-2"></i>
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Login Form -->
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label fw-medium">Username</label>
+                        <div class="input-group input-group-modern">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input type="text"
+                                   class="form-control"
+                                   id="username"
+                                   name="username"
+                                   placeholder="Enter your username"
+                                   required
+                                   autofocus>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label for="password" class="form-label fw-medium mb-0">Password</label>
+                            <a href="#" class="small text-primary text-decoration-none">Forgot password?</a>
+                        </div>
+                        <div class="input-group input-group-modern">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            <input type="password"
+                                   class="form-control"
+                                   id="password"
+                                   name="password"
+                                   placeholder="••••••••"
+                                   required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-4 shadow-primary">
+                        <span>Sign In</span>
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+
+                    <div class="text-center mb-4">
+                        <p class="text-muted small mb-0">
+                            Don't have an account?
+                            <a href="{{ url_for('auth.register') }}" class="fw-semibold text-primary text-decoration-none">Sign up for free</a>
+                        </p>
+                    </div>
+                </form>
+
+                <!-- Demo Credentials -->
+                <div class="demo-credentials-section">
+                    <div class="demo-divider mb-3">
+                        <span class="demo-divider-text">Demo Credentials</span>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="demo-credential-badge">
+                                <small class="text-muted d-block mb-1">Admin</small>
+                                <code class="small">admin / admin123</code>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="demo-credential-badge">
+                                <small class="text-muted d-block mb-1">Doctor</small>
+                                <code class="small">doctor / doctor123</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Note -->
+            <p class="text-center text-white text-opacity-75 small mt-4 mb-0">
+                &copy; 2025 HealthCare Plus. All rights reserved.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
