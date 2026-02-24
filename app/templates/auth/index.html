@@ -3,32 +3,32 @@
 {% block title %}Welcome - HealthCare Plus Enterprise HMS{% endblock %}
 
 {% block content %}
-<div class="row align-items-center py-5" style="min-height: 80vh;">
-    <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5 animate-fade-in">
+<div class="row align-items-center py-4 py-lg-5 hero-section">
+    <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5 animate-fade-in text-center text-lg-start mt-4 mt-lg-0">
         <div class="mb-4">
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm text-wrap lh-base">
                 <i class="bi bi-shield-check-fill me-2"></i>ISO 27001 Certified Security
             </span>
         </div>
         <h1 class="display-3 fw-bold mb-4 tracking-tight hero-title" style="line-height: 1.15; color: var(--gray-900);">
-            Healthcare Excellence <br>
+            Healthcare Excellence <br class="d-none d-lg-block">
             <span class="text-transparent bg-clip-text bg-gradient-primary">Redefined</span> for All
         </h1>
-        <p class="lead text-muted mb-5 pe-lg-4" style="font-size: 1.15rem; line-height: 1.7;">
+        <p class="lead text-muted mb-4 mb-lg-5 pe-lg-4 fs-6 fs-md-5" style="line-height: 1.7;">
             Experience a seamless digital healthcare journey. From instant appointments with top specialists to secure digital records, we bring world-class medical management to your fingertips.
         </p>
 
-        <div class="d-flex flex-wrap gap-3 mb-5">
-            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-4 py-3 shadow-primary rounded-pill d-flex align-items-center transition-all hover-scale">
+        <div class="d-flex flex-column flex-sm-row gap-3 mb-5 justify-content-center justify-content-lg-start">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-4 py-3 shadow-primary rounded-pill d-flex align-items-center justify-content-center transition-all hover-scale">
                 <i class="bi bi-person-plus-fill me-2"></i>
                 Get Started Now
             </a>
-            <a href="#roles" class="btn btn-light border btn-lg px-4 py-3 rounded-pill d-flex align-items-center transition-all hover-bg-gray-100 text-dark fw-medium">
+            <a href="#roles" class="btn btn-light border btn-lg px-4 py-3 rounded-pill d-flex align-items-center justify-content-center transition-all hover-bg-gray-100 text-dark fw-medium">
                 Explore Portals
             </a>
         </div>
 
-        <div class="d-flex align-items-center gap-4 bg-white p-3 rounded-pill shadow-sm border d-inline-flex">
+        <div class="d-flex flex-column flex-sm-row align-items-center gap-3 gap-sm-4 bg-white p-3 rounded-pill shadow-sm border d-inline-flex mx-auto mx-lg-0">
             <div class="d-flex -space-x-2">
                 <div class="avatar bg-primary text-white border-2 border-white shadow-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; z-index: 4;">
                     <img src="https://ui-avatars.com/api/?name=S+J&background=6366f1&color=fff" class="rounded-circle w-100" alt="User">
@@ -43,7 +43,7 @@
                     +1k
                 </div>
             </div>
-            <div class="text-muted small pe-3">
+            <div class="text-muted small pe-0 pe-sm-3 text-center text-sm-start">
                 <span class="text-dark fw-bold">1,200+</span> patients trust us
             </div>
         </div>
@@ -51,61 +51,59 @@
 
     <div class="col-lg-6 position-relative hero-mockup-container">
         <div class="ps-lg-4">
-            <div class="card border border-light shadow-2xl overflow-hidden rounded-2xl bg-white position-relative" style="height: 500px;">
-                <div class="bg-gray-50 border-bottom px-4 py-3 d-flex align-items-center justify-content-between">
+            <div class="card mockup-card border border-light shadow-2xl overflow-hidden rounded-2xl bg-white position-relative">
+                <div class="bg-gray-50 border-bottom px-3 px-md-4 py-2 py-md-3 d-flex align-items-center justify-content-between">
                     <div class="d-flex gap-2">
-                        <div class="rounded-circle bg-danger opacity-75" style="width: 12px; height: 12px;"></div>
-                        <div class="rounded-circle bg-warning opacity-75" style="width: 12px; height: 12px;"></div>
-                        <div class="rounded-circle bg-success opacity-75" style="width: 12px; height: 12px;"></div>
+                        <div class="rounded-circle bg-danger opacity-75" style="width: 10px; height: 10px;"></div>
+                        <div class="rounded-circle bg-warning opacity-75" style="width: 10px; height: 10px;"></div>
+                        <div class="rounded-circle bg-success opacity-75" style="width: 10px; height: 10px;"></div>
                     </div>
-                    <div class="bg-white border rounded-pill px-3 py-1 text-muted" style="font-size: 0.7rem; letter-spacing: 1px;">
+                    <div class="bg-white border rounded-pill px-3 py-1 text-muted text-truncate ms-2" style="font-size: 0.65rem; letter-spacing: 1px; max-width: 200px;">
                         <i class="bi bi-lock-fill me-1 text-success"></i> healthcareplus.com/dashboard
                     </div>
                 </div>
                 
-                <div class="p-4 bg-gray-50 h-100 position-relative mockup-pattern">
-                    <div class="row g-3">
+                <div class="p-3 p-md-4 bg-gray-50 h-100 position-relative mockup-pattern d-flex flex-column">
+                    <div class="row g-2 g-md-3 flex-grow-1">
                         <div class="col-6">
-                            <div class="bg-white p-3 rounded-xl shadow-sm border border-light animate-float">
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="bg-primary-subtle p-2 rounded-lg text-primary me-2"><i class="bi bi-people-fill"></i></div>
-                                    <span class="text-muted small fw-medium">Total Patients</span>
+                            <div class="bg-white p-2 p-md-3 rounded-xl shadow-sm border border-light animate-float h-100">
+                                <div class="d-flex align-items-center mb-1 mb-md-2">
+                                    <div class="bg-primary-subtle p-1 p-md-2 rounded-lg text-primary me-2"><i class="bi bi-people-fill fs-6 fs-md-5"></i></div>
+                                    <span class="text-muted" style="font-size: 0.7rem; font-weight: 500;">Total Patients</span>
                                 </div>
-                                <h4 class="fw-bold mb-0 text-dark">2,451</h4>
-                                <div class="text-success small mt-1"><i class="bi bi-arrow-up-short"></i> +12% this week</div>
+                                <h4 class="fw-bold mb-0 text-dark fs-5 fs-md-4">2,451</h4>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="bg-white p-3 rounded-xl shadow-sm border border-light animate-float" style="animation-delay: 1s;">
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="bg-success-subtle p-2 rounded-lg text-success me-2"><i class="bi bi-calendar-check-fill"></i></div>
-                                    <span class="text-muted small fw-medium">Appointments</span>
+                            <div class="bg-white p-2 p-md-3 rounded-xl shadow-sm border border-light animate-float h-100" style="animation-delay: 1s;">
+                                <div class="d-flex align-items-center mb-1 mb-md-2">
+                                    <div class="bg-success-subtle p-1 p-md-2 rounded-lg text-success me-2"><i class="bi bi-calendar-check-fill fs-6 fs-md-5"></i></div>
+                                    <span class="text-muted" style="font-size: 0.7rem; font-weight: 500;">Appointments</span>
                                 </div>
-                                <h4 class="fw-bold mb-0 text-dark">184</h4>
-                                <div class="text-success small mt-1"><i class="bi bi-arrow-up-short"></i> Today</div>
+                                <h4 class="fw-bold mb-0 text-dark fs-5 fs-md-4">184</h4>
                             </div>
                         </div>
                         
-                        <div class="col-12 mt-4">
-                            <div class="bg-white p-3 rounded-xl shadow-lg border border-light animate-slide-up position-relative z-3">
-                                <h6 class="fw-bold mb-3 d-flex align-items-center text-dark">
+                        <div class="col-12 mt-3 mt-md-4">
+                            <div class="bg-white p-2 p-md-3 rounded-xl shadow-lg border border-light animate-slide-up position-relative z-3">
+                                <h6 class="fw-bold mb-2 mb-md-3 d-flex align-items-center text-dark fs-6 fs-md-6">
                                     <i class="bi bi-activity text-primary me-2"></i> Recent Consultations
                                 </h6>
-                                <div class="d-flex align-items-center p-2 hover-bg-gray-100 rounded-lg transition-all border-bottom mb-2 pb-3">
-                                    <div class="avatar bg-primary-subtle text-primary rounded-circle me-3" style="width:36px; height:36px;"><i class="bi bi-person"></i></div>
-                                    <div class="flex-grow-1">
-                                        <div class="fw-bold text-dark small">Michael Brown</div>
-                                        <div class="text-muted" style="font-size: 0.7rem;">Cardiology • Dr. Smith</div>
+                                <div class="d-flex align-items-center p-2 hover-bg-gray-100 rounded-lg transition-all border-bottom mb-1 pb-2">
+                                    <div class="avatar bg-primary-subtle text-primary rounded-circle me-2 me-md-3 d-none d-sm-flex" style="width:32px; height:32px;"><i class="bi bi-person"></i></div>
+                                    <div class="flex-grow-1 text-truncate pe-2">
+                                        <div class="fw-bold text-dark" style="font-size: 0.85rem;">Michael Brown</div>
+                                        <div class="text-muted text-truncate" style="font-size: 0.7rem;">Cardiology • Dr. Smith</div>
                                     </div>
-                                    <span class="badge bg-success-subtle text-success rounded-pill" style="font-size: 0.65rem;">Completed</span>
+                                    <span class="badge bg-success-subtle text-success rounded-pill" style="font-size: 0.6rem;">Completed</span>
                                 </div>
                                 <div class="d-flex align-items-center p-2 hover-bg-gray-100 rounded-lg transition-all">
-                                    <div class="avatar bg-info-subtle text-info rounded-circle me-3" style="width:36px; height:36px;"><i class="bi bi-person"></i></div>
-                                    <div class="flex-grow-1">
-                                        <div class="fw-bold text-dark small">Emma Wilson</div>
-                                        <div class="text-muted" style="font-size: 0.7rem;">Neurology • Dr. Davis</div>
+                                    <div class="avatar bg-info-subtle text-info rounded-circle me-2 me-md-3 d-none d-sm-flex" style="width:32px; height:32px;"><i class="bi bi-person"></i></div>
+                                    <div class="flex-grow-1 text-truncate pe-2">
+                                        <div class="fw-bold text-dark" style="font-size: 0.85rem;">Emma Wilson</div>
+                                        <div class="text-muted text-truncate" style="font-size: 0.7rem;">Neurology • Dr. Davis</div>
                                     </div>
-                                    <span class="badge bg-warning-subtle text-warning rounded-pill" style="font-size: 0.65rem;">In Progress</span>
+                                    <span class="badge bg-warning-subtle text-warning rounded-pill" style="font-size: 0.6rem;">In Progress</span>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +111,7 @@
                 </div>
             </div>
 
-            <div class="position-absolute glass-card p-3 rounded-xl shadow-lg border d-flex align-items-center animate-float-slow" style="top: 20%; left: -5%; z-index: 10;">
+            <div class="d-none d-xl-flex position-absolute glass-card p-3 rounded-xl shadow-lg border align-items-center animate-float-slow" style="top: 20%; left: -8%; z-index: 10;">
                 <div class="bg-danger-subtle text-danger rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                     <i class="bi bi-heart-pulse-fill fs-5"></i>
                 </div>
@@ -123,7 +121,7 @@
                 </div>
             </div>
 
-            <div class="position-absolute glass-card p-3 rounded-xl shadow-lg border d-flex align-items-center animate-float-slow" style="bottom: 10%; right: -5%; animation-delay: 2s; z-index: 10;">
+            <div class="d-none d-xl-flex position-absolute glass-card p-3 rounded-xl shadow-lg border align-items-center animate-float-slow" style="bottom: 10%; right: -8%; animation-delay: 2s; z-index: 10;">
                 <div class="bg-primary-subtle text-primary rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                     <i class="bi bi-file-earmark-medical-fill fs-5"></i>
                 </div>
@@ -136,49 +134,49 @@
     </div>
 </div>
 
-<div class="row g-4 mb-5 pb-5 mt-3">
-    <div class="col-md-3 col-6">
-        <div class="bg-white p-4 rounded-2xl border shadow-sm text-center hover-lift transition-all">
-            <div class="h2 fw-bold text-primary mb-1">50+</div>
-            <div class="text-muted small fw-semibold text-uppercase letter-spacing-wide">Expert Doctors</div>
+<div class="row g-3 g-md-4 mb-5 pb-lg-5 mt-2 mt-lg-3">
+    <div class="col-6 col-lg-3">
+        <div class="bg-white p-3 p-md-4 rounded-2xl border shadow-sm text-center hover-lift transition-all h-100">
+            <div class="fs-2 fs-md-1 fw-bold text-primary mb-1">50+</div>
+            <div class="text-muted" style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Expert Doctors</div>
         </div>
     </div>
-    <div class="col-md-3 col-6">
-        <div class="bg-white p-4 rounded-2xl border shadow-sm text-center hover-lift transition-all">
-            <div class="h2 fw-bold text-success mb-1">15+</div>
-            <div class="text-muted small fw-semibold text-uppercase letter-spacing-wide">Specializations</div>
+    <div class="col-6 col-lg-3">
+        <div class="bg-white p-3 p-md-4 rounded-2xl border shadow-sm text-center hover-lift transition-all h-100">
+            <div class="fs-2 fs-md-1 fw-bold text-success mb-1">15+</div>
+            <div class="text-muted" style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Specializations</div>
         </div>
     </div>
-    <div class="col-md-3 col-6">
-        <div class="bg-white p-4 rounded-2xl border shadow-sm text-center hover-lift transition-all">
-            <div class="h2 fw-bold text-info mb-1">24/7</div>
-            <div class="text-muted small fw-semibold text-uppercase letter-spacing-wide">Emergency Care</div>
+    <div class="col-6 col-lg-3">
+        <div class="bg-white p-3 p-md-4 rounded-2xl border shadow-sm text-center hover-lift transition-all h-100">
+            <div class="fs-2 fs-md-1 fw-bold text-info mb-1">24/7</div>
+            <div class="text-muted" style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Emergency Care</div>
         </div>
     </div>
-    <div class="col-md-3 col-6">
-        <div class="bg-white p-4 rounded-2xl border shadow-sm text-center hover-lift transition-all">
-            <div class="h2 fw-bold text-warning mb-1">10k+</div>
-            <div class="text-muted small fw-semibold text-uppercase letter-spacing-wide">Satisfied Patients</div>
+    <div class="col-6 col-lg-3">
+        <div class="bg-white p-3 p-md-4 rounded-2xl border shadow-sm text-center hover-lift transition-all h-100">
+            <div class="fs-2 fs-md-1 fw-bold text-warning mb-1">10k+</div>
+            <div class="text-muted" style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Satisfied Patients</div>
         </div>
     </div>
 </div>
 
-<div class="row py-5 mt-4" id="roles">
-    <div class="col-12 text-center mb-5">
+<div class="row py-4 py-lg-5 mt-2 mt-lg-4" id="roles">
+    <div class="col-12 text-center mb-4 mb-lg-5 px-3">
         <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-2 rounded-pill fw-semibold">Access Portals</span>
-        <h2 class="fw-bold mb-3 h1 text-dark">Designed specifically for <span class="text-transparent bg-clip-text bg-gradient-primary">You</span></h2>
-        <p class="text-muted mx-auto" style="max-width: 600px;">Specific tools and interfaces optimized for every user in our healthcare ecosystem.</p>
+        <h2 class="fw-bold mb-3 fs-2 fs-md-1 text-dark">Designed specifically for <span class="text-transparent bg-clip-text bg-gradient-primary">You</span></h2>
+        <p class="text-muted mx-auto" style="max-width: 600px; font-size: 0.95rem;">Specific tools and interfaces optimized for every user in our healthcare ecosystem.</p>
     </div>
 
     <div class="col-lg-4 mb-4">
-        <div class="card h-100 border shadow-sm hover-lift card-hover rounded-2xl overflow-hidden group">
+        <div class="card h-100 border shadow-sm hover-lift card-hover rounded-2xl overflow-hidden group mx-auto" style="max-width: 400px;">
             <div class="bg-primary" style="height: 6px;"></div>
-            <div class="card-body p-5 text-center d-flex flex-direction-column">
-                <div class="rounded-circle bg-primary-subtle d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 80px; height: 80px;">
-                    <i class="bi bi-people-fill fs-1 text-primary"></i>
+            <div class="card-body p-4 p-lg-5 text-center d-flex flex-direction-column">
+                <div class="rounded-circle bg-primary-subtle d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 70px; height: 70px;">
+                    <i class="bi bi-people-fill fs-2 text-primary"></i>
                 </div>
                 <h4 class="fw-bold mb-3 text-dark">For Patients</h4>
-                <p class="text-muted mb-4 flex-grow-1">
+                <p class="text-muted mb-4 flex-grow-1" style="font-size: 0.95rem;">
                     Book appointments instantly, view medical history, track prescriptions, and consult with specialists securely.
                 </p>
                 <a href="{{ url_for('auth.register') }}" class="btn btn-primary rounded-pill w-100 py-2 btn-hover-effect">
@@ -189,14 +187,14 @@
     </div>
 
     <div class="col-lg-4 mb-4">
-        <div class="card h-100 border shadow-sm hover-lift card-hover rounded-2xl overflow-hidden group">
+        <div class="card h-100 border shadow-sm hover-lift card-hover rounded-2xl overflow-hidden group mx-auto" style="max-width: 400px;">
             <div class="bg-success" style="height: 6px;"></div>
-            <div class="card-body p-5 text-center d-flex flex-direction-column">
-                <div class="rounded-circle bg-success-subtle d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 80px; height: 80px;">
-                    <i class="bi bi-stethoscope fs-1 text-success"></i>
+            <div class="card-body p-4 p-lg-5 text-center d-flex flex-direction-column">
+                <div class="rounded-circle bg-success-subtle d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 70px; height: 70px;">
+                    <i class="bi bi-stethoscope fs-2 text-success"></i>
                 </div>
                 <h4 class="fw-bold mb-3 text-dark">For Doctors</h4>
-                <p class="text-muted mb-4 flex-grow-1">
+                <p class="text-muted mb-4 flex-grow-1" style="font-size: 0.95rem;">
                     Manage appointments, maintain digital treatment EMRs, and organize your daily clinic schedule with ease.
                 </p>
                 <a href="{{ url_for('auth.login') }}" class="btn btn-outline-success rounded-pill w-100 py-2">
@@ -207,14 +205,14 @@
     </div>
 
     <div class="col-lg-4 mb-4">
-        <div class="card h-100 border shadow-sm hover-lift card-hover rounded-2xl overflow-hidden group">
+        <div class="card h-100 border shadow-sm hover-lift card-hover rounded-2xl overflow-hidden group mx-auto" style="max-width: 400px;">
             <div class="bg-dark" style="height: 6px;"></div>
-            <div class="card-body p-5 text-center d-flex flex-direction-column">
-                <div class="rounded-circle bg-gray-200 d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 80px; height: 80px;">
-                    <i class="bi bi-shield-lock-fill fs-1 text-dark"></i>
+            <div class="card-body p-4 p-lg-5 text-center d-flex flex-direction-column">
+                <div class="rounded-circle bg-gray-200 d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 70px; height: 70px;">
+                    <i class="bi bi-shield-lock-fill fs-2 text-dark"></i>
                 </div>
                 <h4 class="fw-bold mb-3 text-dark">For Admins</h4>
-                <p class="text-muted mb-4 flex-grow-1">
+                <p class="text-muted mb-4 flex-grow-1" style="font-size: 0.95rem;">
                     Full control over hospital operations, staff management, department oversight, and real-time analytics.
                 </p>
                 <a href="{{ url_for('auth.login') }}" class="btn btn-outline-dark rounded-pill w-100 py-2">
@@ -225,75 +223,75 @@
     </div>
 </div>
 
-<div class="row py-5 mt-5 border-top" id="features">
-    <div class="col-lg-5 mb-5 mb-lg-0 pe-lg-5 d-flex flex-column justify-content-center">
-        <h2 class="display-5 fw-bold mb-4 tracking-tight text-dark">Why Choose <br><span class="text-primary">HealthCare Plus?</span></h2>
-        <p class="text-muted mb-5 lead fs-6">We provide a comprehensive, all-in-one healthcare management solution built with modern technology, enterprise security, and intuitive user-centric design.</p>
+<div class="row py-4 py-lg-5 mt-2 mt-lg-5 border-top" id="features">
+    <div class="col-lg-5 mb-4 mb-lg-0 pe-lg-5 d-flex flex-column justify-content-center text-center text-lg-start">
+        <h2 class="display-5 fw-bold mb-3 tracking-tight text-dark fs-2 fs-lg-1">Why Choose <br class="d-none d-lg-block"><span class="text-primary">HealthCare Plus?</span></h2>
+        <p class="text-muted mb-4 lead fs-6">We provide a comprehensive, all-in-one healthcare management solution built with modern technology, enterprise security, and intuitive user-centric design.</p>
         
-        <div class="d-flex mb-4 align-items-start">
+        <div class="d-flex mb-3 align-items-start text-start mx-auto mx-lg-0" style="max-width: 400px;">
             <div class="bg-primary-subtle text-primary rounded-circle p-2 d-flex align-items-center justify-content-center mt-1 me-3 flex-shrink-0" style="width: 36px; height: 36px;">
                 <i class="bi bi-check-lg fs-5"></i>
             </div>
             <div>
-                <h5 class="fw-bold mb-1 text-dark">Instant Scheduling</h5>
-                <p class="text-muted small">Book and manage appointments in seconds with real-time doctor availability calendars.</p>
+                <h5 class="fw-bold mb-1 text-dark fs-6 fs-md-5">Instant Scheduling</h5>
+                <p class="text-muted small mb-0">Book and manage appointments in seconds with real-time doctor availability calendars.</p>
             </div>
         </div>
 
-        <div class="d-flex mb-4 align-items-start">
+        <div class="d-flex mb-4 align-items-start text-start mx-auto mx-lg-0" style="max-width: 400px;">
             <div class="bg-primary-subtle text-primary rounded-circle p-2 d-flex align-items-center justify-content-center mt-1 me-3 flex-shrink-0" style="width: 36px; height: 36px;">
                 <i class="bi bi-check-lg fs-5"></i>
             </div>
             <div>
-                <h5 class="fw-bold mb-1 text-dark">Complete Medical History</h5>
-                <p class="text-muted small">Securely access your prescriptions, lab reports, and diagnosis history anywhere, anytime.</p>
+                <h5 class="fw-bold mb-1 text-dark fs-6 fs-md-5">Complete Medical History</h5>
+                <p class="text-muted small mb-0">Securely access your prescriptions, lab reports, and diagnosis history anywhere, anytime.</p>
             </div>
         </div>
         
-        <div class="mt-2">
+        <div class="mt-2 text-center text-lg-start">
             <a href="{{ url_for('auth.register') }}" class="fw-bold text-primary text-decoration-none hover-scale d-inline-block">
                 See all features <i class="bi bi-arrow-right ms-1"></i>
             </a>
         </div>
     </div>
     
-    <div class="col-lg-7">
-        <div class="row g-4 h-100">
-            <div class="col-sm-12 col-md-8">
-                <div class="p-4 rounded-2xl bg-white shadow-sm border h-100 hover-lift bento-box position-relative overflow-hidden">
+    <div class="col-lg-7 mt-4 mt-lg-0">
+        <div class="row g-3 g-md-4 h-100">
+            <div class="col-12 col-md-8">
+                <div class="p-3 p-md-4 rounded-2xl bg-white shadow-sm border h-100 hover-lift bento-box position-relative overflow-hidden">
                     <div class="position-relative z-3">
-                        <div class="bg-primary-subtle d-inline-block p-3 rounded-xl mb-3">
-                            <i class="bi bi-laptop text-primary fs-3"></i>
+                        <div class="bg-primary-subtle d-inline-block p-2 p-md-3 rounded-xl mb-2 mb-md-3">
+                            <i class="bi bi-laptop text-primary fs-4 fs-md-3"></i>
                         </div>
-                        <h5 class="fw-bold text-dark">Fully Responsive Design</h5>
-                        <p class="text-muted small mb-0">Whether you are checking in on your mobile phone, managing clinic records on an iPad, or viewing analytics on a desktop PC, our interface adapts perfectly to your screen.</p>
+                        <h5 class="fw-bold text-dark fs-6 fs-md-5">Fully Responsive Design</h5>
+                        <p class="text-muted small mb-0">Whether checking in on your mobile phone, managing records on an iPad, or viewing analytics on a PC, our interface adapts perfectly to your screen.</p>
                     </div>
-                    <i class="bi bi-laptop position-absolute text-primary opacity-5" style="font-size: 12rem; right: -20px; bottom: -40px; transform: rotate(-15deg);"></i>
+                    <i class="bi bi-laptop position-absolute text-primary opacity-5 d-none d-sm-block" style="font-size: 10rem; right: -20px; bottom: -40px; transform: rotate(-15deg);"></i>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4">
-                <div class="p-4 rounded-2xl bg-white shadow-sm border h-100 hover-lift bento-box d-flex flex-column justify-content-center align-items-center text-center">
-                    <div class="bg-danger-subtle p-3 rounded-circle mb-3">
-                        <i class="bi bi-shield-lock text-danger fs-3"></i>
+            <div class="col-6 col-md-4">
+                <div class="p-3 p-md-4 rounded-2xl bg-white shadow-sm border h-100 hover-lift bento-box d-flex flex-column justify-content-center align-items-center text-center">
+                    <div class="bg-danger-subtle p-2 p-md-3 rounded-circle mb-2 mb-md-3">
+                        <i class="bi bi-shield-lock text-danger fs-4 fs-md-3"></i>
                     </div>
-                    <h6 class="fw-bold text-dark">Enterprise Security</h6>
-                    <p class="text-muted small mb-0">AES-256 Encryption standard.</p>
+                    <h6 class="fw-bold text-dark fs-6">Enterprise Security</h6>
+                    <p class="text-muted small mb-0 d-none d-sm-block">AES-256 Encryption.</p>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-5">
-                <div class="p-4 rounded-2xl bg-white shadow-sm border h-100 hover-lift bento-box">
-                    <div class="bg-info-subtle d-inline-block p-2 rounded-lg mb-3">
-                        <i class="bi bi-clock-history text-info fs-4"></i>
+            <div class="col-6 col-md-5">
+                <div class="p-3 p-md-4 rounded-2xl bg-white shadow-sm border h-100 hover-lift bento-box text-center text-md-start">
+                    <div class="bg-info-subtle d-inline-block p-2 rounded-lg mb-2 mb-md-3">
+                        <i class="bi bi-clock-history text-info fs-5 fs-md-4"></i>
                     </div>
-                    <h6 class="fw-bold text-dark">Fast Setup</h6>
-                    <p class="text-muted small mb-0">Zero learning curve. Get your clinic running in under 5 minutes.</p>
+                    <h6 class="fw-bold text-dark fs-6">Fast Setup</h6>
+                    <p class="text-muted small mb-0 d-none d-sm-block">Zero learning curve. Get running in minutes.</p>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-7">
-                <div class="p-4 rounded-2xl bg-gradient-primary text-white shadow-primary h-100 hover-lift bento-box d-flex flex-column justify-content-center">
-                    <div class="d-flex align-items-center mb-3">
-                        <i class="bi bi-headset fs-2 me-3 text-white opacity-75"></i>
-                        <h5 class="fw-bold mb-0 text-white">24/7 Premium Support</h5>
+            <div class="col-12 col-md-7">
+                <div class="p-3 p-md-4 rounded-2xl bg-gradient-primary text-white shadow-primary h-100 hover-lift bento-box d-flex flex-column justify-content-center text-center text-md-start">
+                    <div class="d-flex flex-column flex-md-row align-items-center mb-2 mb-md-3">
+                        <i class="bi bi-headset fs-3 fs-md-2 me-md-3 mb-2 mb-md-0 text-white opacity-75"></i>
+                        <h5 class="fw-bold mb-0 text-white fs-6 fs-md-5">24/7 Premium Support</h5>
                     </div>
                     <p class="text-white text-opacity-75 small mb-0">Our dedicated medical software support team is always ready to assist doctors and admins.</p>
                 </div>
@@ -414,6 +412,10 @@
 }
 
 /* Mockup Specific Styles */
+.mockup-card {
+    height: 500px;
+}
+
 .mockup-pattern {
     background-image: radial-gradient(var(--gray-300) 1px, transparent 1px);
     background-size: 20px 20px;
@@ -443,11 +445,25 @@
     100% { transform: translateY(0); opacity: 1; }
 }
 
-/* Responsive adjustments */
+/* Responsive Overrides */
 @media (max-width: 992px) {
-    .display-3 { font-size: 2.5rem; }
-    .hero-mockup-container { margin-top: 3rem; }
-    .hero-title br { display: none; }
+    .display-3 { font-size: 2.7rem; }
+    .hero-section { min-height: auto !important; }
+    .mockup-card { height: 450px; }
+}
+
+@media (max-width: 768px) {
+    .display-3 { font-size: 2.2rem; }
+    .hero-mockup-container { margin-top: 2rem; }
+    .mockup-card { height: auto; min-height: 350px; }
+    
+    /* Ensure stat boxes stack neatly without overflowing */
+    .bento-box { padding: 1.25rem !important; }
+}
+
+@media (max-width: 576px) {
+    .display-3 { font-size: 1.8rem; }
+    .avatar img { width: 32px; height: 32px; }
 }
 </style>
 {% endblock %}
