@@ -1150,3 +1150,50 @@ body.auth-page-body {
         justify-content: center;
     }
 }
+
+/* ===================================
+   17. MOBILE FORM & BUTTON REFINEMENTS
+   =================================== */
+@media (max-width: 768px) {
+    /* 1. Shrink oversized buttons globally */
+    .btn {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .btn-lg {
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.95rem !important;
+    }
+    
+    /* 2. Fix Headers where Title and Buttons crush together */
+    /* This targets headers like: [Title] ----- [Add Doctor Btn] */
+    .page-header .d-flex.justify-content-between,
+    .card-header .d-flex.justify-content-between,
+    .d-flex.justify-content-between.align-items-center {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+    }
+    
+    /* 3. Make header action buttons full width for easy tapping */
+    .page-header .btn,
+    .card-header .btn,
+    .d-flex.justify-content-between.align-items-center .btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* 4. Fix form grid layouts (Manage Doctor / Departments) */
+    .card-body form .row > [class^="col-"] {
+        margin-bottom: 1rem;
+    }
+    
+    /* 5. Fix massive action buttons inside tables */
+    td .btn, td .btn-sm {
+        padding: 0.35rem 0.5rem !important;
+        font-size: 0.8rem !important;
+        margin-bottom: 0.3rem !important;
+        width: 100% !important; /* Stack them neatly */
+    }
+}
