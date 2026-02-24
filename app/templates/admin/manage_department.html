@@ -1,40 +1,47 @@
 {% extends "base.html" %}
-{% block title %}{{ title }} - HMS{% endblock %}
+
+{% block title %}{{ title }} - HealthCare Plus{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div class="d-flex justify-content-between align-items-center">
-        <div>
-            <h1 class="page-title">
-                <i class="bi bi-hospital"></i>
-                {{ title }}
-            </h1>
-        </div>
-        <div>
-            <a href="{{ url_for('admin.departments') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Back to List
-            </a>
-        </div>
+<div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+    <div>
+        <h2 class="page-title">
+            <i class="bi {% if department %}bi-pencil-square{% else %}bi-plus-circle{% endif %} text-primary me-2"></i>{{ title }}
+        </h2>
+        <p class="page-subtitle mb-0">
+            {% if department %}Update the details for {{ department.name }}{% else %}Add a new department to the hospital{% endif %}
+        </p>
+    </div>
+    <div>
+        <a href="{{ url_for('admin.departments') }}" class="btn btn-outline-secondary rounded-pill w-100">
+            <i class="bi bi-arrow-left me-1"></i> Back to List
+        </a>
     </div>
 </div>
 
 <div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body p-4">
+    <div class="col-12 col-lg-8">
+        <div class="card border border-light shadow-sm rounded-2xl overflow-hidden bg-white">
+            <div class="card-body p-4 p-lg-5">
                 <form method="POST">
-                    <div class="mb-3">
-                        <label for="name" class="form-label required">Department Name</label>
-                        <input type="text" class="form-control" id="name" name="name" 
-                               value="{{ department.name if department else '' }}" required placeholder="e.g. Cardiology">
+                    <div class="bg-gray-50 p-4 rounded-xl border mb-4">
+                        <h6 class="text-uppercase text-muted small fw-bold mb-4 letter-spacing-wide">
+                            <i class="bi bi-info-circle me-1"></i> Department Details
+                        </h6>
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-medium small">Department Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required placeholder="e.g. Cardiology" value="{{ department.name if department else '' }}">
+                        </div>
+                        <div class="mb-2">
+                            <label for="description" class="form-label fw-medium small">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Describe the focus of this department...">{{ department.description if department else '' }}</textarea>
+                        </div>
                     </div>
-                    <div class="mb-4">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" 
-                                  placeholder="Brief description of the department...">{{ department.description if department else '' }}</textarea>
-                    </div>
-                    <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ url_for('admin.departments') }}" class="btn btn-light border">Cancel</a>
-                        <button type="submit" class="btn btn-primary px-4">Save Department</button>
+
+                    <div class="text-end border-top pt-3">
+                        <button type="submit" class="btn btn-primary rounded-pill shadow-primary px-5 w-100 d-md-inline-block" style="max-width: 250px;">
+                            <i class="bi bi-check-circle me-1"></i> Save Department
+                        </button>
                     </div>
                 </form>
             </div>

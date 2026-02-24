@@ -1,49 +1,55 @@
 {% extends "base.html" %}
-{% block title %}Edit Doctor - HMS{% endblock %}
+
+{% block title %}Edit Doctor - HealthCare Plus{% endblock %}
+
 {% block content %}
-<h2 class="mb-4"><i class="bi bi-pencil-square"></i> Edit Doctor</h2>
-<div class="card">
-    <div class="card-body">
-        <form method="POST">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="full_name" class="form-label">Full Name *</label>
-                    <input type="text" class="form-control" id="full_name" name="full_name" value="{{ doctor.full_name }}" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="department_id" class="form-label">Department *</label>
-                    <select class="form-select" id="department_id" name="department_id" required>
-                        {% for dept in departments %}
-                        <option value="{{ dept.id }}" {% if dept.id == doctor.department_id %}selected{% endif %}>{{ dept.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="specialization" class="form-label">Specialization *</label>
-                    <input type="text" class="form-control" id="specialization" name="specialization" value="{{ doctor.specialization }}" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ doctor.phone or '' }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="qualification" class="form-label">Qualification</label>
-                    <input type="text" class="form-control" id="qualification" name="qualification" value="{{ doctor.qualification or '' }}">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="experience_years" class="form-label">Experience (Years)</label>
-                    <input type="number" class="form-control" id="experience_years" name="experience_years" value="{{ doctor.experience_years }}" min="0">
-                </div>
-            </div>
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Update Doctor</button>
-                <a href="{{ url_for('admin.doctors') }}" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
+<div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+    <div>
+        <h2 class="page-title"><i class="bi bi-pencil-square text-primary me-2"></i>Edit Doctor Profile</h2>
+        <p class="page-subtitle mb-0">Update information for {{ doctor.full_name }}</p>
+    </div>
+    <div>
+        <a href="{{ url_for('admin.doctors') }}" class="btn btn-outline-secondary rounded-pill w-100">
+            <i class="bi bi-arrow-left me-1"></i> Back to List
+        </a>
     </div>
 </div>
-{% endblock %}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+        <div class="card border border-light shadow-sm rounded-2xl overflow-hidden bg-white">
+            <div class="card-body p-4 p-lg-5">
+                <form method="POST" action="{{ url_for('admin.edit_doctor', doctor_id=doctor.id) }}">
+                    <div class="bg-gray-50 p-4 rounded-xl border mb-4">
+                        <h6 class="text-uppercase text-muted small fw-bold mb-4 letter-spacing-wide">
+                            <i class="bi bi-file-medical me-1"></i> Professional Info
+                        </h6>
+                        
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label fw-medium small">Full Name</label>
+                            <input type="text" class="form-control form-control-sm" id="full_name" name="full_name" required value="{{ doctor.full_name }}">
+                        </div>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-sm-6">
+                                <label for="department_id" class="form-label fw-medium small">Department</label>
+                                <select class="form-select form-select-sm" id="department_id" name="department_id" required>
+                                    {% for dept in departments %}
+                                    <option value="{{ dept.id }}" {% if doctor.department_id == dept.id %}selected{% endif %}>{{ dept.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="specialization" class="form-label fw-medium small">Specialization</label>
+                                <input type="text" class="form-control form-control-sm" id="specialization" name="specialization" required value="{{ doctor.specialization }}">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-sm-6">
+                                <label for="qualification" class="form-label fw-medium small">Qualification</label>
+                                <input type="text" class="form-control form-control-sm" id="qualification" name="qualification" required value="{{ doctor.qualification }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="experience_years" class="form-label fw-medium small">Experience (Yrs)</label>
+                                <input type="number" class="form-control form-control-sm" id="experience_years" name="experience_years" min="0" required value="{{ doctor.experience_years }}">
