@@ -1064,3 +1064,89 @@ body.auth-page-body {
     padding: 0 1rem;
   }
 }
+
+/* ===================================
+   16. GLOBAL MOBILE RESPONSIVENESS (All Pages)
+   =================================== */
+
+/* Fix table containers to allow smooth touch scrolling */
+.table-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 992px) {
+    /* 1. Compress main scrolling area so it doesn't waste space */
+    .content-scrollable {
+        padding: 1.25rem 1rem !important;
+    }
+
+    /* 2. Scale down page headers */
+    .page-header {
+        margin-bottom: 1.5rem !important;
+        padding-bottom: 1rem !important;
+    }
+    
+    .page-title {
+        font-size: 1.5rem !important;
+    }
+    
+    .page-subtitle {
+        font-size: 0.95rem !important;
+    }
+
+    /* 3. Optimize Cards for Mobile */
+    .card {
+        border-radius: var(--radius-lg) !important;
+    }
+    
+    .card-body, .card-header {
+        padding: 1.25rem !important;
+    }
+
+    /* 4. Optimize Stat Cards to fit cleanly */
+    .stat-card {
+        padding: 1.25rem !important;
+    }
+    
+    .stat-card-icon {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1.2rem !important;
+    }
+
+    /* 5. Prevent iOS auto-zoom on form inputs by forcing 16px font size */
+    .form-control, .form-select {
+        font-size: 16px !important;
+        padding: 0.75rem !important;
+    }
+
+    /* Fix grid columns stacking without spacing */
+    .row > [class^="col-"]:not([class*="col-md"]):not([class*="col-lg"]) {
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Extra small devices (phones) */
+@media (max-width: 576px) {
+    .content-scrollable {
+        padding: 1rem 0.5rem !important;
+    }
+    
+    /* Force tables to stay wide so they are swipeable, not crushed */
+    table.table {
+        min-width: 600px !important;
+    }
+    
+    /* Stack action buttons inside tables so they are easy to tap */
+    .table .btn-group, .table .d-flex.gap-2 {
+        flex-direction: column !important;
+        gap: 0.4rem !important;
+    }
+    
+    .table .btn {
+        width: 100% !important;
+        text-align: center;
+        justify-content: center;
+    }
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -17,72 +20,113 @@
 
     {% block extra_css %}{% endblock %}
 </head>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 1. Stop Safari/iOS from zooming in when tapping forms
+        const metaViewport = document.querySelector('meta[name=viewport]');
+        if (metaViewport) {
+            metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+        }
+
+        // 2. Automatically make ALL data tables swipeable on mobile
+        const tables = document.querySelectorAll('table.table');
+        tables.forEach(table => {
+            // Check if the table is already wrapped in a responsive container
+            if (!table.closest('.table-container') && !table.closest('.table-responsive')) {
+                const wrapper = document.createElement('div');
+                // Add Bootstrap responsive classes
+                wrapper.className = 'table-responsive border-0 shadow-sm rounded-3 mb-4 bg-white';
+                wrapper.style.webkitOverflowScrolling = 'touch'; // Smooth scrolling on iOS
+
+                // Wrap the table
+                table.parentNode.insertBefore(wrapper, table);
+                wrapper.appendChild(table);
+            }
+        });
+    });
+</script>
+
 <body>
     <div class="app-shell">
-        
+
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
-        
+
         <aside class="sidebar" id="appSidebar">
             <div class="sidebar-header">
                 <a class="text-decoration-none d-flex align-items-center gap-2" href="{{ url_for('auth.index') }}">
-                    <div class="d-flex align-items-center justify-content-center bg-primary-subtle rounded-3 p-1" style="width: 32px; height: 32px;">
+                    <div class="d-flex align-items-center justify-content-center bg-primary-subtle rounded-3 p-1"
+                        style="width: 32px; height: 32px;">
                         <i class="bi bi-hospital-fill text-primary" style="font-size: 1.2rem;"></i>
                     </div>
-                    <span class="fw-bold text-dark tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">HealthCare<span class="text-primary">Plus</span></span>
+                    <span class="fw-bold text-dark tracking-tight"
+                        style="font-family: 'Plus Jakarta Sans', sans-serif;">HealthCare<span
+                            class="text-primary">Plus</span></span>
                 </a>
             </div>
 
             <div class="sidebar-body">
                 {% if current_user.role == 'admin' %}
-                    <div class="nav-item-group">
-                        <div class="nav-group-label">Overview</div>
-                        <a href="{{ url_for('admin.dashboard') }}" class="side-nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
-                            <i class="bi bi-grid-1x2"></i> Dashboard
-                        </a>
-                    </div>
-                    <div class="nav-item-group">
-                        <div class="nav-group-label">Management</div>
-                        <a href="{{ url_for('admin.doctors') }}" class="side-nav-link {% if 'doctors' in request.endpoint %}active{% endif %}">
-                            <i class="bi bi-person-badge"></i> Doctors
-                        </a>
-                        <a href="{{ url_for('admin.patients') }}" class="side-nav-link {% if 'patients' in request.endpoint %}active{% endif %}">
-                            <i class="bi bi-people"></i> Patients
-                        </a>
-                        <a href="{{ url_for('admin.departments') }}" class="side-nav-link {% if 'departments' in request.endpoint %}active{% endif %}">
-                            <i class="bi bi-hospital"></i> Departments
-                        </a>
-                    </div>
-                    <div class="nav-item-group">
-                        <div class="nav-group-label">Operations</div>
-                        <a href="{{ url_for('admin.appointments') }}" class="side-nav-link {% if 'appointments' in request.endpoint %}active{% endif %}">
-                            <i class="bi bi-calendar-check"></i> Appointments
-                        </a>
-                    </div>
+                <div class="nav-item-group">
+                    <div class="nav-group-label">Overview</div>
+                    <a href="{{ url_for('admin.dashboard') }}"
+                        class="side-nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+                        <i class="bi bi-grid-1x2"></i> Dashboard
+                    </a>
+                </div>
+                <div class="nav-item-group">
+                    <div class="nav-group-label">Management</div>
+                    <a href="{{ url_for('admin.doctors') }}"
+                        class="side-nav-link {% if 'doctors' in request.endpoint %}active{% endif %}">
+                        <i class="bi bi-person-badge"></i> Doctors
+                    </a>
+                    <a href="{{ url_for('admin.patients') }}"
+                        class="side-nav-link {% if 'patients' in request.endpoint %}active{% endif %}">
+                        <i class="bi bi-people"></i> Patients
+                    </a>
+                    <a href="{{ url_for('admin.departments') }}"
+                        class="side-nav-link {% if 'departments' in request.endpoint %}active{% endif %}">
+                        <i class="bi bi-hospital"></i> Departments
+                    </a>
+                </div>
+                <div class="nav-item-group">
+                    <div class="nav-group-label">Operations</div>
+                    <a href="{{ url_for('admin.appointments') }}"
+                        class="side-nav-link {% if 'appointments' in request.endpoint %}active{% endif %}">
+                        <i class="bi bi-calendar-check"></i> Appointments
+                    </a>
+                </div>
 
                 {% elif current_user.role == 'doctor' %}
-                    <div class="nav-item-group">
-                        <div class="nav-group-label">Workspace</div>
-                        <a href="{{ url_for('doctor.dashboard') }}" class="side-nav-link {% if request.endpoint == 'doctor.dashboard' %}active{% endif %}">
-                            <i class="bi bi-speedometer2"></i> Dashboard
-                        </a>
-                        <a href="{{ url_for('doctor.availability') }}" class="side-nav-link {% if request.endpoint == 'doctor.availability' %}active{% endif %}">
-                            <i class="bi bi-calendar-range"></i> My Schedule
-                        </a>
-                    </div>
+                <div class="nav-item-group">
+                    <div class="nav-group-label">Workspace</div>
+                    <a href="{{ url_for('doctor.dashboard') }}"
+                        class="side-nav-link {% if request.endpoint == 'doctor.dashboard' %}active{% endif %}">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                    <a href="{{ url_for('doctor.availability') }}"
+                        class="side-nav-link {% if request.endpoint == 'doctor.availability' %}active{% endif %}">
+                        <i class="bi bi-calendar-range"></i> My Schedule
+                    </a>
+                </div>
 
                 {% elif current_user.role == 'patient' %}
-                    <div class="nav-item-group">
-                        <div class="nav-group-label">Personal Care</div>
-                        <a href="{{ url_for('patient.dashboard') }}" class="side-nav-link {% if request.endpoint == 'patient.dashboard' %}active{% endif %}">
-                            <i class="bi bi-grid-1x2"></i> Overview
-                        </a>
-                        <a href="{{ url_for('patient.doctors') }}" class="side-nav-link {% if 'doctors' in request.endpoint or 'book' in request.endpoint %}active{% endif %}">
-                            <i class="bi bi-search"></i> Find Doctors
-                        </a>
-                        <a href="{{ url_for('patient.profile') }}" class="side-nav-link {% if request.endpoint == 'patient.profile' %}active{% endif %}">
-                            <i class="bi bi-person-circle"></i> My Profile
-                        </a>
-                    </div>
+                <div class="nav-item-group">
+                    <div class="nav-group-label">Personal Care</div>
+                    <a href="{{ url_for('patient.dashboard') }}"
+                        class="side-nav-link {% if request.endpoint == 'patient.dashboard' %}active{% endif %}">
+                        <i class="bi bi-grid-1x2"></i> Overview
+                    </a>
+                    <a href="{{ url_for('patient.doctors') }}"
+                        class="side-nav-link {% if 'doctors' in request.endpoint or 'book' in request.endpoint %}active{% endif %}">
+                        <i class="bi bi-search"></i> Find Doctors
+                    </a>
+                    <a href="{{ url_for('patient.profile') }}"
+                        class="side-nav-link {% if request.endpoint == 'patient.profile' %}active{% endif %}">
+                        <i class="bi bi-person-circle"></i> My Profile
+                    </a>
+                </div>
                 {% endif %}
             </div>
 
@@ -105,15 +149,16 @@
         <div class="main-wrapper">
             <header class="top-header">
                 <div class="d-flex align-items-center">
-                    <button class="btn btn-light d-lg-none me-3 border-0 shadow-sm" id="sidebarToggle" type="button" aria-label="Toggle navigation">
+                    <button class="btn btn-light d-lg-none me-3 border-0 shadow-sm" id="sidebarToggle" type="button"
+                        aria-label="Toggle navigation">
                         <i class="bi bi-list fs-4"></i>
                     </button>
-                    
+
                     <h5 class="mb-0 fw-bold text-dark" id="page-header-title">
                         {% if request.endpoint and '.' in request.endpoint %}
-                            {{ request.endpoint.split('.')[1]|capitalize|replace('_', ' ') }}
+                        {{ request.endpoint.split('.')[1]|capitalize|replace('_', ' ') }}
                         {% else %}
-                            HealthCare Plus
+                        HealthCare Plus
                         {% endif %}
                     </h5>
                 </div>
@@ -124,17 +169,18 @@
 
             <div class="content-scrollable">
                 {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category if category in ['success', 'warning', 'danger', 'info'] else 'info' }} alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-info-circle-fill fs-5 me-3"></i>
-                                    <div>{{ message }}</div>
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category if category in ['success', 'warning', 'danger', 'info'] else 'info' }} alert-dismissible fade show shadow-sm border-0 mb-4"
+                    role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-info-circle-fill fs-5 me-3"></i>
+                        <div>{{ message }}</div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
                 {% endwith %}
 
                 {% block content %}{% endblock %}
@@ -146,9 +192,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebar = document.getElementById('appSidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -158,7 +204,7 @@
                 function toggleSidebar() {
                     sidebar.classList.toggle('show');
                     overlay.classList.toggle('show');
-                    
+
                     // Prevent background scrolling when menu is open on mobile
                     if (sidebar.classList.contains('show')) {
                         document.body.style.overflow = 'hidden';
@@ -169,7 +215,7 @@
 
                 // Open menu on button click
                 sidebarToggle.addEventListener('click', toggleSidebar);
-                
+
                 // Close menu when clicking the dark overlay
                 overlay.addEventListener('click', toggleSidebar);
 
@@ -185,7 +231,8 @@
             }
         });
     </script>
-    
+
     {% block extra_js %}{% endblock %}
 </body>
+
 </html>
