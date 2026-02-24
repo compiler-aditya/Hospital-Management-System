@@ -1,57 +1,98 @@
 {% extends "base.html" %}
-{% block title %}My Profile - HMS{% endblock %}
+
+{% block title %}My Profile - HealthCare Plus{% endblock %}
+
 {% block content %}
-<h2 class="mb-4"><i class="bi bi-person-badge"></i> My Profile</h2>
-<div class="card">
-    <div class="card-body">
-        <form method="POST">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="full_name" class="form-label">Full Name *</label>
-                    <input type="text" class="form-control" id="full_name" name="full_name" value="{{ patient.full_name }}" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ patient.phone or '' }}">
-                </div>
+<div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+    <div>
+        <h2 class="page-title"><i class="bi bi-person-gear text-primary me-2"></i>My Profile</h2>
+        <p class="page-subtitle mb-0">Manage your personal information and medical details</p>
+    </div>
+    <div>
+        <a href="{{ url_for('patient.dashboard') }}" class="btn btn-outline-secondary rounded-pill w-100">
+            <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="card border border-light shadow-sm rounded-2xl overflow-hidden bg-white">
+            <div class="card-body p-4 p-lg-5">
+                <form method="POST" action="{{ url_for('patient.profile') }}">
+                    
+                    <div class="bg-gray-50 p-4 rounded-xl border mb-4">
+                        <h6 class="text-uppercase text-muted small fw-bold mb-4 letter-spacing-wide">
+                            <i class="bi bi-person-badge me-1"></i> Basic Information
+                        </h6>
+                        
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label fw-medium small">Full Name</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" required value="{{ patient.full_name }}">
+                        </div>
+                        
+                        <div class="row g-3 mb-2">
+                            <div class="col-sm-6">
+                                <label for="date_of_birth" class="form-label fw-medium small">Date of Birth</label>
+                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ patient.date_of_birth.strftime('%Y-%m-%d') if patient.date_of_birth else '' }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="gender" class="form-label fw-medium small">Gender</label>
+                                <select class="form-select" id="gender" name="gender">
+                                    <option value="">Select...</option>
+                                    <option value="Male" {% if patient.gender == 'Male' %}selected{% endif %}>Male</option>
+                                    <option value="Female" {% if patient.gender == 'Female' %}selected{% endif %}>Female</option>
+                                    <option value="Other" {% if patient.gender == 'Other' %}selected{% endif %}>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-xl border mb-4">
+                        <h6 class="text-uppercase text-muted small fw-bold mb-4 letter-spacing-wide">
+                            <i class="bi bi-heart-pulse me-1"></i> Contact & Medical
+                        </h6>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-sm-6">
+                                <label for="phone" class="form-label fw-medium small">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="{{ patient.phone }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="blood_group" class="form-label fw-medium small">Blood Group</label>
+                                <select class="form-select" id="blood_group" name="blood_group">
+                                    <option value="">Select...</option>
+                                    <option value="A+" {% if patient.blood_group == 'A+' %}selected{% endif %}>A+</option>
+                                    <option value="A-" {% if patient.blood_group == 'A-' %}selected{% endif %}>A-</option>
+                                    <option value="B+" {% if patient.blood_group == 'B+' %}selected{% endif %}>B+</option>
+                                    <option value="B-" {% if patient.blood_group == 'B-' %}selected{% endif %}>B-</option>
+                                    <option value="O+" {% if patient.blood_group == 'O+' %}selected{% endif %}>O+</option>
+                                    <option value="O-" {% if patient.blood_group == 'O-' %}selected{% endif %}>O-</option>
+                                    <option value="AB+" {% if patient.blood_group == 'AB+' %}selected{% endif %}>AB+</option>
+                                    <option value="AB-" {% if patient.blood_group == 'AB-' %}selected{% endif %}>AB-</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="emergency_contact" class="form-label fw-medium small">Emergency Contact</label>
+                            <input type="text" class="form-control" id="emergency_contact" name="emergency_contact" placeholder="Name and phone number" value="{{ patient.emergency_contact or '' }}">
+                        </div>
+
+                        <div class="mb-2">
+                            <label for="address" class="form-label fw-medium small">Home Address</label>
+                            <textarea class="form-control" id="address" name="address" rows="3">{{ patient.address or '' }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="text-end border-top pt-3">
+                        <button type="submit" class="btn btn-primary rounded-pill shadow-primary px-5 w-100 d-md-inline-block" style="max-width: 250px;">
+                            <i class="bi bi-save me-1"></i> Update Profile
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="date_of_birth" class="form-label">Date of Birth</label>
-                    <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" 
-                           value="{{ patient.date_of_birth.strftime('%Y-%m-%d') if patient.date_of_birth else '' }}">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="gender" class="form-label">Gender</label>
-                    <select class="form-select" id="gender" name="gender">
-                        <option value="">Select Gender</option>
-                        <option value="Male" {% if patient.gender == 'Male' %}selected{% endif %}>Male</option>
-                        <option value="Female" {% if patient.gender == 'Female' %}selected{% endif %}>Female</option>
-                        <option value="Other" {% if patient.gender == 'Other' %}selected{% endif %}>Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="blood_group" class="form-label">Blood Group</label>
-                    <select class="form-select" id="blood_group" name="blood_group">
-                        <option value="">Select Blood Group</option>
-                        {% for bg in ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] %}
-                        <option value="{{ bg }}" {% if patient.blood_group == bg %}selected{% endif %}>{{ bg }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="emergency_contact" class="form-label">Emergency Contact</label>
-                    <input type="tel" class="form-control" id="emergency_contact" name="emergency_contact" value="{{ patient.emergency_contact or '' }}">
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="address" class="form-label">Address</label>
-                <textarea class="form-control" id="address" name="address" rows="2">{{ patient.address or '' }}</textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Update Profile</button>
-        </form>
+        </div>
     </div>
 </div>
 {% endblock %}
