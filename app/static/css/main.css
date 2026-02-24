@@ -1016,3 +1016,51 @@ body.auth-page-body {
 .auth-card-container {
     margin: auto; 
 }
+
+/* ===================================
+   15. MOBILE SIDEBAR OVERRIDE
+   =================================== */
+@media (max-width: 992px) {
+  /* Make sidebar a sliding drawer */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Hide completely off-screen */
+    width: 280px;
+    height: 100vh;
+    z-index: 1050;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex !important; /* Override the old display: none */
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* When JS adds the .show class, slide it in */
+  .sidebar.show {
+    left: 0;
+  }
+
+  /* The dark overlay background behind the menu */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 1040;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .sidebar-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Adjust header padding for mobile */
+  .top-header {
+    padding: 0 1rem;
+  }
+}

@@ -5,28 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}HealthCare Plus - Enterprise HMS{% endblock %}</title>
 
-    <!-- Google Fonts - Inter & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- App Shell Layout (Dashboard) - Always rendered if authenticated -->
     <div class="app-shell">
         
-        <!-- 1. Sidebar -->
-        <aside class="sidebar">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
+        <aside class="sidebar" id="appSidebar">
             <div class="sidebar-header">
                 <a class="text-decoration-none d-flex align-items-center gap-2" href="{{ url_for('auth.index') }}">
                     <div class="d-flex align-items-center justify-content-center bg-primary-subtle rounded-3 p-1" style="width: 32px; height: 32px;">
@@ -106,12 +102,13 @@
             </div>
         </aside>
 
-        <!-- 2. Main Content Wrapper -->
         <div class="main-wrapper">
-            <!-- Top Header -->
             <header class="top-header">
-                <div>
-                    <!-- Breadcrumbs or Page Title Placeholder -->
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-light d-lg-none me-3 border-0 shadow-sm" id="sidebarToggle" type="button" aria-label="Toggle navigation">
+                        <i class="bi bi-list fs-4"></i>
+                    </button>
+                    
                     <h5 class="mb-0 fw-bold text-dark" id="page-header-title">
                         {% if request.endpoint and '.' in request.endpoint %}
                             {{ request.endpoint.split('.')[1]|capitalize|replace('_', ' ') }}
@@ -121,11 +118,10 @@
                     </h5>
                 </div>
                 <div class="d-flex align-items-center gap-3">
-                    <span class="text-muted small">{{ current_date }}</span>
+                    <span class="text-muted small d-none d-sm-inline">{{ current_date }}</span>
                 </div>
             </header>
 
-            <!-- Content Area (Scrollable) -->
             <div class="content-scrollable">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
@@ -148,10 +144,48 @@
 
     {% block modals %}{% endblock %}
 
-    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('appSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (sidebarToggle && sidebar && overlay) {
+                // Function to toggle sidebar classes
+                function toggleSidebar() {
+                    sidebar.classList.toggle('show');
+                    overlay.classList.toggle('show');
+                    
+                    // Prevent background scrolling when menu is open on mobile
+                    if (sidebar.classList.contains('show')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                }
+
+                // Open menu on button click
+                sidebarToggle.addEventListener('click', toggleSidebar);
+                
+                // Close menu when clicking the dark overlay
+                overlay.addEventListener('click', toggleSidebar);
+
+                // Close menu when clicking a link inside it (helps when navigating)
+                const navLinks = sidebar.querySelectorAll('.side-nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= 992 && sidebar.classList.contains('show')) {
+                            toggleSidebar();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+    
     {% block extra_js %}{% endblock %}
 </body>
 </html>
